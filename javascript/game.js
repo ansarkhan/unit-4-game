@@ -8,16 +8,20 @@ var character = function(id, name, hp, ap) {
     this.ap = ap;
 };
 
+// creating new characters
 ansar = new character(1, "ansar", 50, 10);
 manahil = new character(2, "manahil", 20, 10);
 minahil = new character(3, "minahil", 10, 10);
 
+// array of all characters
 var characters = [ansar, manahil, minahil];
 
+// setting default values for variables
 var myCharacter = null;
 var myOpponent = null;
 var defenders = [];
 
+// CORE LOGIC
 
 // sets value for myCharacter and opponents
 var pickCharacter = function(charID) {
@@ -48,17 +52,21 @@ var attack = function (char1, char2) {
         alert('You loose!');
         reset();
     } else if (char2.hp <= 0) {
+        alert("You defeated an opponent!");
+        $('#opponent').empty();
+        myOpponent = null;
+        // HOW TO POP THE RIGHT PERSON FROM THE ARRAY?
+        defenders.pop();
         if (defenders.length === 0) {
             alert("you won!!");
             reset();
-        } else {
-            alert("You defeated an opponent!");
-            $('#opponent').empty();
-            defenders.pop();
         }
 
-
     }
+
+
+
+    // }
 }
 
 var reset = function() {
@@ -140,8 +148,12 @@ $(document).on('click', '.defender-container', function() {
 
 // attacking
 $(document).on('click', '#attack', function() {
-    attack(myCharacter, myOpponent);
-    console.log(myCharacter);
-    console.log(myOpponent);
+    if (myOpponent === null) {
+        alert("No opponent selected!");
+    } else {
+        attack(myCharacter, myOpponent);
+        console.log(myCharacter);
+        console.log(myOpponent);
+    }
 });
 
