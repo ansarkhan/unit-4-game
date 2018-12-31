@@ -9,9 +9,10 @@ var character = function(id, name, hp, ap) {
 };
 
 // creating new characters
-ansar = new character(1, "ansar", 50, 10);
-manahil = new character(2, "manahil", 20, 10);
+ansar = new character(1, "ansar", 10, 10);
+manahil = new character(2, "manahil", 30, 10);
 minahil = new character(3, "minahil", 10, 10);
+
 
 // array of all characters
 var characters = [ansar, manahil, minahil];
@@ -23,8 +24,9 @@ var defenders = [];
 
 // CORE LOGIC
 
-// sets value for myCharacter and opponents
+// sets value for myCharacter and pushes rest into the defenders array
 var pickCharacter = function(charID) {
+    // SHOULD ONLY ALLOW IF THERE IS NOT ALREADY A CHARACTER PICKED
     for (i=0; i<characters.length; i++) {
         if (characters[i].id === charID) {
             myCharacter = characters[i];
@@ -34,15 +36,18 @@ var pickCharacter = function(charID) {
     }
 }
 
+// from the defenders array, pick an opponent
 var pickOpponent = function(charID) {
+    // SHOULD ONLY ALLOW IF THERE IS NOT ALREADY AN OPPONENT PICKED
     for (i=0; i<defenders.length; i++) {
         if (defenders[i].id === charID) {
             myOpponent = defenders[i];
+            defenders.splice(i,1)
         }
     }
 }
 
-// Attack function
+// Attack function, subtracts hp based on ap
 var attack = function (char1, char2) {
     char1.hp = char1.hp - char2.ap;
     char2.hp = char2.hp - char1.ap;
@@ -51,24 +56,20 @@ var attack = function (char1, char2) {
     if (char1.hp <= 0) {
         alert('You loose!');
         reset();
+    // if you defeat an opponent
     } else if (char2.hp <= 0) {
         alert("You defeated an opponent!");
         $('#opponent').empty();
         myOpponent = null;
-        // HOW TO POP THE RIGHT PERSON FROM THE ARRAY?
-        defenders.pop();
+        // if you win the game
         if (defenders.length === 0) {
             alert("you won!!");
             reset();
         }
-
     }
-
-
-
-    // }
 }
 
+// reset function if you lose or want to reset game
 var reset = function() {
     myCharacter = null;
     myOpponent = null;
@@ -86,10 +87,12 @@ var reset = function() {
     printCharacters();
 }
 
+// adding a new character
+
+
 
 
 // UI MODEL
-
 
 // prints all characters to the screen
 var printCharacters = function() {
@@ -111,7 +114,7 @@ var printCharacters = function() {
     
         }
 }
-printCharacters();
+
 
 // picking a character and moving others to defenders
 $(document).on('click', '.character-container', function() {
@@ -157,3 +160,10 @@ $(document).on('click', '#attack', function() {
     }
 });
 
+// reset button
+$(document).on('click', '#reset', function() {
+    reset();
+});
+
+// run the app
+printCharacters();
