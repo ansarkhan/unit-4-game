@@ -1,14 +1,29 @@
+.main-custom {
+    background-image: url("../images/background.jpg");
+}
 .character-container-main {
 
 }
 
-.character-container {
-    padding: 0px 20px 0px 20px;
-    background-color: bisque;
-    border: 3px solid red;
+.character-container, .defender-container, .my-character, .my-opponent {
+    padding: 20px 20px 0px 20px;
+    background-color: gainsboro;
+    border: 4px solid brown;
     margin: 0px 20px 0px 0px;
+
 }
+
+.character-description {
+    text-align: center;
+}
+
+
 
 .top-buffer {
     margin-top: 20px;
+}
+
+.image-class {
+    float: left;
+    clear: both;
 }
