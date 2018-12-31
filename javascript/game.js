@@ -8,9 +8,9 @@ var character = function(id, name, hp, ap) {
     this.ap = ap;
 };
 
-ansar = new character(1, "ansar", 100, 20);
-manahil = new character(2, "manahil", 150, 10);
-minahil = new character(3, "minahil", 120, 15);
+ansar = new character(1, "ansar", 50, 10);
+manahil = new character(2, "manahil", 20, 10);
+minahil = new character(3, "minahil", 10, 10);
 
 var characters = [ansar, manahil, minahil];
 
@@ -48,26 +48,33 @@ var attack = function (char1, char2) {
         alert('You loose!');
         reset();
     } else if (char2.hp <= 0) {
-        // pause game
-        // let player choose new opponent
-        // repeat process
+        if (defenders.length === 0) {
+            alert("you won!!");
+            reset();
+        } else {
+            alert("You defeated an opponent!");
+            $('#opponent').empty();
+            defenders.pop();
+        }
+
 
     }
 }
 
 var reset = function() {
-    var myCharacter = null;
-    var myOpponent = null;
-    var defenders = [];
-    // $('.main').each(function(idx, el){
-    //     $('#'+i).hide();
-    // })
+    myCharacter = null;
+    myOpponent = null;
+    defenders = [];
+
+    $('#your-character').empty();
+    $('#defenders').empty();
+    $('#opponent').empty();
+
     ansar = new character(1, "ansar", 100, 20);
     manahil = new character(2, "manahil", 150, 10);
     minahil = new character(3, "minahil", 120, 15);
 
-    var characters = [ansar, manahil, minahil];
-
+    characters = [ansar, manahil, minahil];
     printCharacters();
 }
 
