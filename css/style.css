@@ -30,6 +30,6 @@
 }
 
 .image-class {
-    float: left;
+    margin: auto;
     clear: both;
 }

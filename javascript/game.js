@@ -13,31 +13,52 @@ var addCharacter = function() {
 
 }
 
+//Submit button
+var submit = document.getElementById('submit');
+
+//Event listener
+submit.addEventListener('click', function getTarget(e) {
+  e.preventDefault()
+  var jsTitleInput = document.getElementById('title_input').value;
+  var jsImageInput = document.getElementById('image_input').value;
+  var jsTextInput = document.getElementById('text1_input').value;
+  var newPostf = new Post(jsTitleInput, jsImageInput, jsTextInput); 
+  blog.addPost(newPostf);
+  addToHTML();
+});
+
 // creating new characters
-ansar = new character(1, "ansar", 10, 10);
-manahil = new character(2, "manahil", 30, 10);
-minahil = new character(3, "minahil", 10, 10);
+obiWan = new character(1, "Obi Wan", 10, 10);
+lukeSkywalker = new character(2, "Luke Skywalker", 80, 10);
+darthSidious = new character(3, "Darth Sidious", 10, 10);
+darthMaul = new character(4, "Darth Maul", 10, 10);
 
 
 // array of all characters
-var characters = [ansar, manahil, minahil];
+var characters = [obiWan, lukeSkywalker, darthSidious, darthMaul];
 
 // setting default values for variables
 var myCharacter = null;
 var myOpponent = null;
 var defenders = [];
+var gamePlay = false;
 
 // CORE LOGIC
 
 // sets value for myCharacter and pushes rest into the defenders array
 var pickCharacter = function(charID) {
-    // SHOULD ONLY ALLOW IF THERE IS NOT ALREADY A CHARACTER PICKED
-    for (i=0; i<characters.length; i++) {
-        if (characters[i].id === charID) {
-            myCharacter = characters[i];
-        } else {
-            defenders.push(characters[i]);
+    if (gamePlay === false) {
+        for (i=0; i<characters.length; i++) {
+            if (characters[i].id === charID) {
+                myCharacter = characters[i];
+            } else {
+                defenders.push(characters[i]);
+            }
         }
+        gamePlay = true;
+    }
+    else {
+        alert("You already picked a character!")
     }
 }
 
@@ -80,20 +101,24 @@ var attack = function (char1, char2) {
 
 // reset function if you lose or want to reset game
 var reset = function() {
-    myCharacter = null;
-    myOpponent = null;
-    defenders = [];
-
-    $('#your-character').empty();
-    $('#defenders').empty();
-    $('#opponent').empty();
-
-    ansar = new character(1, "ansar", 100, 20);
-    manahil = new character(2, "manahil", 150, 10);
-    minahil = new character(3, "minahil", 120, 15);
-
-    characters = [ansar, manahil, minahil];
-    printCharacters();
+    if (gamePlay === true) {
+        myCharacter = null;
+        myOpponent = null;
+        defenders = [];
+        gamePlay = false;
+    
+        $('#your-character').empty();
+        $('#defenders').empty();
+        $('#opponent').empty();
+    
+        obiWan = new character(1, "Obi Wan", 10, 10);
+        lukeSkywalker = new character(2, "Luke Skywalker", 80, 10);
+        darthSidious = new character(3, "Darth Sidious", 10, 10);
+        darthMaul = new character(4, "Darth Maul", 10, 10);
+    
+        var characters = [obiWan, lukeSkywalker, darthSidious, darthMaul];
+        printCharacters();
+    }
 }
 
 // UI MODEL
@@ -106,7 +131,7 @@ var printCharacters = function() {
         var characterDescription = $("<div>")
         characterContainer.addClass("float-left character-container rounded");
         characterContainer.attr("id", characters[i].id);
-        characterContainer.append("<img src='images/obi-wan.jpg' class='image-class' alt=''>");
+        characterContainer.append('<img src="images/'+ i +'.jpg" class="image-class">');
         $(".character-container-main").append(characterContainer);
         // inside div
         characterDescription.addClass("character-description")
