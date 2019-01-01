@@ -8,6 +8,11 @@ var character = function(id, name, hp, ap) {
     this.ap = ap;
 };
 
+// adding a new character
+var addCharacter = function() {
+
+}
+
 // creating new characters
 ansar = new character(1, "ansar", 10, 10);
 manahil = new character(2, "manahil", 30, 10);
@@ -39,11 +44,15 @@ var pickCharacter = function(charID) {
 // from the defenders array, pick an opponent
 var pickOpponent = function(charID) {
     // SHOULD ONLY ALLOW IF THERE IS NOT ALREADY AN OPPONENT PICKED
-    for (i=0; i<defenders.length; i++) {
-        if (defenders[i].id === charID) {
-            myOpponent = defenders[i];
-            defenders.splice(i,1)
+    if (myOpponent === null) {
+        for (i=0; i<defenders.length; i++) {
+            if (defenders[i].id === charID) {
+                myOpponent = defenders[i];
+                defenders.splice(i,1);
+            }
         }
+    } else {
+        alert("Defeat the current opponent!");
     }
 }
 
@@ -87,11 +96,6 @@ var reset = function() {
     printCharacters();
 }
 
-// adding a new character
-
-
-
-
 // UI MODEL
 
 // prints all characters to the screen
@@ -125,6 +129,7 @@ $(document).on('click', '.character-container', function() {
     $("#"+clickID).appendTo("#your-character");
     $("#"+clickID).addClass("my-character");
     $("#"+clickID).removeClass("character-container");
+    $('#pick-character').remove();
     //remove character container class
     // move defenders to div
     for (i=0; i<defenders.length; i++) {
@@ -141,12 +146,18 @@ $(document).on('click', '.character-container', function() {
 
 // picking an opponent
 $(document).on('click', '.defender-container', function() {
-    var clickID = parseInt($(this).attr('id'));
-    $("#"+clickID).appendTo("#opponent");
-    $("#"+clickID).addClass("my-opponent rounded");
-    $("#"+clickID).removeClass("defender-container");
-    pickOpponent(clickID);
-    console.log("My opponent is ", myOpponent);
+    if (myOpponent === null) {
+        var clickID = parseInt($(this).attr('id'));
+        $("#"+clickID).appendTo("#opponent");
+        $("#"+clickID).addClass("my-opponent rounded");
+        $("#"+clickID).removeClass("defender-container");
+        pickOpponent(clickID);
+        console.log("My opponent is ", myOpponent);
+        if (defenders.length === 0 ) {
+            $('#defenders-main').remove();
+        }
+
+    }
 });
 
 // attacking
@@ -162,7 +173,9 @@ $(document).on('click', '#attack', function() {
 
 // reset button
 $(document).on('click', '#reset', function() {
+    // EASIEST WAY TO DETECT GAME STATE
     reset();
+
 });
 
 // run the app
