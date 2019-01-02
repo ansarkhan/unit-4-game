@@ -219,8 +219,10 @@ $(document).on('click', '.defender-container', function() {
 
 // attacking
 $(document).on('click', '#attack', function() {
-    if (myOpponent === null) {
-        alert("No opponent selected!");
+    if (myCharacter === null) {
+        alert("No character selected! Select a character.");
+    } else if(myOpponent === null) {
+        alert("No opponent selected! Select an opponent.");
     } else {
         attack(myCharacter, myOpponent);
         console.log(myCharacter);
