@@ -10,25 +10,11 @@ var character = function(id, name, hp, ap) {
 
 
 
-//Submit button
-// var submit = document.getElementById('submit');
-
-// //Event listener
-// submit.addEventListener('click', function getTarget(e) {
-//   e.preventDefault()
-//   var jsTitleInput = document.getElementById('title_input').value;
-//   var jsImageInput = document.getElementById('image_input').value;
-//   var jsTextInput = document.getElementById('text1_input').value;
-//   var newPostf = new Post(jsTitleInput, jsImageInput, jsTextInput); 
-//   blog.addPost(newPostf);
-//   addToHTML();
-// });
-
 // creating new characters
-obiWan = new character(1, "Obi Wan", 10, 10);
-lukeSkywalker = new character(2, "Luke Skywalker", 80, 10);
-darthSidious = new character(3, "Darth Sidious", 10, 10);
-darthMaul = new character(4, "Darth Maul", 10, 10);
+obiWan = new character(1, "Obi Wan", 50, 5);
+lukeSkywalker = new character(2, "Luke Skywalker", 100, 20);
+darthSidious = new character(3, "Darth Sidious", 60, 8);
+darthMaul = new character(4, "Darth Maul", 70, 5);
 
 
 // array of all characters
@@ -42,16 +28,48 @@ var gamePlay = false;
 
 // CORE LOGIC
 
+var init = function() {
+    if (gamePlay === false) {
+        myCharacter = null;
+        myOpponent = null;
+        defenders = [];
+        gamePlay = false;
+        
+        $('#defenders-main').show();
+        $('.character-container-main').empty();
+        $('#your-character').empty();
+        $('#defenders').empty();
+        $('#opponent').empty();
+
+    
+        obiWan = new character(1, "Obi Wan", 50, 5);
+        lukeSkywalker = new character(2, "Luke Skywalker", 100, 20);
+        darthSidious = new character(3, "Darth Sidious", 60, 8);
+        darthMaul = new character(4, "Darth Maul", 70, 5);        
+    
+
+        characters = [obiWan, lukeSkywalker, darthSidious, darthMaul];
+        printCharacters();
+
+        //show the add-character button again
+    }
+}
+
+// array1.forEach(function(element) {
+//     console.log(element);
+//   });
+
+  
 // sets value for myCharacter and pushes rest into the defenders array
 var pickCharacter = function(charID) {
     if (gamePlay === false) {
-        for (i=0; i<characters.length; i++) {
-            if (characters[i].id === charID) {
-                myCharacter = characters[i];
+        characters.forEach(function(char) {
+            if (char.id === charID) {
+                myCharacter = char;
             } else {
-                defenders.push(characters[i]);
+                defenders.push(char);
             }
-        }
+        }) // for loop ends
         gamePlay = true;
     }
     else {
@@ -68,7 +86,7 @@ var pickOpponent = function(charID) {
                 myOpponent = defenders[i];
                 defenders.splice(i,1);
             }
-        }
+        } //ends here
     } else {
         alert("Defeat the current opponent!");
     }
@@ -103,17 +121,21 @@ var reset = function() {
         myOpponent = null;
         defenders = [];
         gamePlay = false;
-        
+
+        $('#pick-character').show();
+        $('#defenders-main').show();
         $('.character-container-main').empty();
         $('#your-character').empty();
         $('#defenders').empty();
         $('#opponent').empty();
+
     
-        obiWan = new character(1, "Obi Wan", 10, 10);
-        lukeSkywalker = new character(2, "Luke Skywalker", 80, 10);
-        darthSidious = new character(3, "Darth Sidious", 10, 10);
-        darthMaul = new character(4, "Darth Maul", 10, 10);
+        obiWan = new character(1, "Obi Wan", 50, 5);
+        lukeSkywalker = new character(2, "Luke Skywalker", 100, 20);
+        darthSidious = new character(3, "Darth Sidious", 60, 8);
+        darthMaul = new character(4, "Darth Maul", 70, 5);   
     
+
         characters = [obiWan, lukeSkywalker, darthSidious, darthMaul];
         printCharacters();
 
@@ -124,7 +146,7 @@ var reset = function() {
 // UI MODEL
 
 // adding and displaying a new character, function needs to be split out
-$(document).on('click', '#submit', function() {
+$(document).on('click', '#add-character', function() {
     var id = characters.length + 1;
     var name = $('#name').val();
     var hp = parseInt($('#hp').val());
@@ -134,7 +156,7 @@ $(document).on('click', '#submit', function() {
     printOneCharacter();
     gamePlay = true;
     console.log("test");
-    // console.log(characters);
+    console.log(characters);
 });
 
 // prints all characters to the screen
@@ -152,7 +174,9 @@ var printCharacters = function() {
         characterDescription.append(
             "Name: " + characters[i].name 
             + "<br/>" + 
-            "HP: " + characters[i].hp);
+            "HP: " + characters[i].hp
+            + "<br/>" +
+            "AP: " + characters[i].ap);
         $(characterContainer).append(characterDescription);
     
         }
@@ -170,7 +194,9 @@ var printOneCharacter = function() {
         characterDescription.append(
             "Name: " + characters[i].name 
             + "<br/>" + 
-            "HP: " + characters[i].hp);
+            "HP: " + characters[i].hp
+            + "<br/>" +
+            "AP: " + characters[i].ap);
         $(characterContainer).append(characterDescription);
 }
 
@@ -184,7 +210,7 @@ $(document).on('click', '.character-container', function() {
     $("#"+clickID).appendTo("#your-character");
     $("#"+clickID).addClass("my-character");
     $("#"+clickID).removeClass("character-container");
-    $('#pick-character').remove();
+    $('#pick-character').hide();
     // hide 'add character' button
     $("#submit").hide();
     //remove character container class
@@ -211,7 +237,7 @@ $(document).on('click', '.defender-container', function() {
         pickOpponent(clickID);
         console.log("My opponent is ", myOpponent);
         if (defenders.length === 0 ) {
-            $('#defenders-main').remove();
+            $('#defenders-main').hide();
         }
 
     }
@@ -238,4 +264,4 @@ $(document).on('click', '#reset', function() {
 });
 
 // run the app
-printCharacters();
+init();

@@ -22,8 +22,8 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-12"><h3 id="pick-character">Pick a character...</h3></div>
                 <div class="col-12 character-container-main">
-                    <h3 id="pick-character">Pick a character...</h3>
                     <!-- <div class="float-left profile-image">
                         <p>sample text</p>
                         <img src="images/obi-wan.jpg" alt="">
@@ -71,18 +71,18 @@
                                 <input type="text" class="form-control" id="name" placeholder="Character Name">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="hp" placeholder="Health Points">
+                                <input type="number" min="0" class="form-control" id="hp" placeholder="Health Points (numbers only)">
                             </div>
                             <div class="form-group">
-                                    <input type="text" class="form-control" id="ap" placeholder="Attack Power">
+                                    <input type="number" min="0" class="form-control" id="ap" placeholder="Attack Power (numbers only)">
                             </div>
-                            <button type="submit" class="btn btn-success" id="submit">Add Character</button>
 
                         </form>
                     </div>
                     <div class="col-10 top-buffer">
                         <button class="btn btn-primary" id="attack">Attack</button>
                         <button class="btn btn-danger" id="reset">Reset</button>
+                        <button class="btn btn-success" id="add-character">Add Character</button>
                     </div>
             </div>
     
